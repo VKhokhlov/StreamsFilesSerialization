@@ -13,13 +13,13 @@ public class Main {
                 new Product("Гречка", 70)
         );
 
-        File basketFile = new File("Basket.txt");
+        File basketFile = new File("Basket.bin");
         Basket basket;
 
         try {
-            basket = Basket.loadFromTxtFile(basketFile);
+            basket = Basket.loadFromBinFile(basketFile);
         }
-        catch (IOException e) {
+        catch (Exception e) {
             System.out.println("Произошла ошибка при загрузке корзины из файла: " + e.getMessage());
 
             basket = new Basket();
@@ -56,7 +56,7 @@ public class Main {
             basket.addToCart(products.get(productNumber), productCount);
 
             try {
-                basket.saveTxt(basketFile);
+                basket.saveBin(basketFile);
             }
             catch (IOException e) {
                 System.out.println("Произошла ошибка при сохранении корзины в файл: " + e.getMessage());

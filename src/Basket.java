@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class Basket {
+public class Basket implements Serializable {
     private List<Item> items = new ArrayList<>();
 
-    private static class Item {
+    private static class Item implements Serializable {
         Product product;
         int amount;
 
@@ -78,5 +78,17 @@ public class Basket {
         Files.readAllLines(Path.of(textFile.getAbsolutePath())).forEach(line -> basket.items.add(new Basket.Item(line)));
 
         return basket;
+    }
+
+    public void saveBin(File file) throws IOException {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
+            out.writeObject(this);
+        }
+    }
+
+    public static Basket loadFromBinFile(File file) throws IOException, ClassNotFoundException {
+        try (ObjectInputStream out = new ObjectInputStream(new FileInputStream(file))) {
+            return (Basket) out.readObject();
+        }
     }
 }
