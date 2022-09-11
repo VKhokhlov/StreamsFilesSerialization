@@ -57,7 +57,7 @@ public class Basket {
 
     public void saveTxt(File textFile) throws IOException {
         try (PrintWriter writer = new PrintWriter(textFile)) {
-            items.forEach(item -> writer.println(item.save()));
+            items.stream().map(Item::save).forEach(writer::println);
         }
     }
 
@@ -68,14 +68,12 @@ public class Basket {
             return basket;
         }
 
-//        BufferedReader reader = new BufferedReader(new FileReader(textFile));
-//        String line = null;
-//
-//        while ((line = reader.readLine()) != null) {
-//            basket.items.add(new Basket.Item(line));
-//        }
+        BufferedReader reader = new BufferedReader(new FileReader(textFile));
+        String line = null;
 
-        Files.readAllLines(Path.of(textFile.getAbsolutePath())).forEach(line -> basket.items.add(new Basket.Item(line)));
+        while ((line = reader.readLine()) != null) {
+            basket.items.add(new Basket.Item(line));
+        }
 
         return basket;
     }
