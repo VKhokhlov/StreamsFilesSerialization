@@ -18,8 +18,7 @@ public class Main {
 
         try {
             basket = Basket.loadFromTxtFile(basketFile);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Произошла ошибка при загрузке корзины из файла: " + e.getMessage());
 
             basket = new Basket();
@@ -57,8 +56,7 @@ public class Main {
 
             try {
                 basket.saveTxt(basketFile);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 System.out.println("Произошла ошибка при сохранении корзины в файл: " + e.getMessage());
             }
         }
