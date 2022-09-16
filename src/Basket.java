@@ -41,8 +41,7 @@ public class Basket {
 
         if (optionalItem.isPresent()) {
             optionalItem.get().amount += amount;
-        }
-        else {
+        } else {
             items.add(new Item(product, amount));
         }
     }
