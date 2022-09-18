@@ -13,13 +13,17 @@ public class Main {
                 new Product("Гречка", 70)
         );
 
-        File basketFile = new File("Basket.json");
-        File clientLogFile = new File("log.csv");
+        Config config = new Config("shop.xml",
+                new Config.Item(true, "basket.json", "json"),
+                new Config.Item(true, "basket.json", "json"),
+                new Config.Item(true, "client.csv", "csv")
+        );
+
         Basket basket;
         ClientLog clientLog = new ClientLog();
 
         try {
-            basket = Basket.loadFromJson(basketFile);
+            basket = Basket.loadBasket(config.load);
         } catch (IOException e) {
             System.out.println("Произошла ошибка при загрузке корзины из файла: " + e.getMessage());
 
@@ -58,14 +62,17 @@ public class Main {
             basket.addToCart(products.get(productNumber), productCount);
 
             try {
-                basket.saveJson(basketFile);
+                basket.saveBasket(config.save);
             } catch (IOException e) {
                 System.out.println("Произошла ошибка при сохранении корзины в файл: " + e.getMessage());
             }
         }
 
         basket.printCart();
-        clientLog.exportAsCSV(clientLogFile);
+
+        if (config.log.isEnabled()) {
+            clientLog.exportAsCSV(new File(config.log.getFileName()));
+        }
     }
 
     public static void printProducts(List<Product> products) {

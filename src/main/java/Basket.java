@@ -116,4 +116,38 @@ public class Basket {
     public void setItems(List<Item> items) {
         this.items = items;
     }
+
+    public void saveBasket(Config.Item save) throws IOException {
+        if (!save.isEnabled()) {
+            return;
+        }
+
+        switch (save.getFormat()) {
+            case "json": {
+                saveJson(new File(save.getFileName()));
+                break;
+            }
+            case "txt": {
+                saveTxt(new File(save.getFileName()));
+                break;
+            }
+        }
+    }
+
+    public static Basket loadBasket(Config.Item load) throws IOException {
+        if (!load.isEnabled()) {
+            return new Basket();
+        }
+
+        switch (load.getFormat()) {
+            case "json": {
+                return loadFromJson(new File(load.getFileName()));
+            }
+            case "txt": {
+                return loadFromTxtFile(new File(load.getFileName()));
+            }
+        }
+
+        return new Basket();
+    }
 }
