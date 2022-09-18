@@ -1,0 +1,5 @@
+*.jpg
+*.iml
+.idea/
+out/
+target/

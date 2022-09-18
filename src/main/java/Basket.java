@@ -1,6 +1,9 @@
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +14,9 @@ public class Basket {
     private static class Item {
         Product product;
         int amount;
+
+        public Item() {
+        }
 
         public Item(String saveString) {
             String[] values = saveString.split(" ");
@@ -33,6 +39,22 @@ public class Basket {
 
         public String save() {
             return product.getName() + " " + product.getPrice() + " " + amount;
+        }
+
+        public Product getProduct() {
+            return product;
+        }
+
+        public int getAmount() {
+            return amount;
+        }
+
+        public void setProduct(Product product) {
+            this.product = product;
+        }
+
+        public void setAmount(int amount) {
+            this.amount = amount;
         }
     }
 
@@ -75,5 +97,23 @@ public class Basket {
         }
 
         return basket;
+    }
+
+    public void saveJson(File jsonFile) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.writeValue(jsonFile, this);
+    }
+
+    public static Basket loadFromJson(File jsonFile) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(jsonFile, Basket.class);
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 }

@@ -13,11 +13,13 @@ public class Main {
                 new Product("Гречка", 70)
         );
 
-        File basketFile = new File("Basket.txt");
+        File basketFile = new File("Basket.json");
+        File clientLogFile = new File("log.csv");
         Basket basket;
+        ClientLog clientLog = new ClientLog();
 
         try {
-            basket = Basket.loadFromTxtFile(basketFile);
+            basket = Basket.loadFromJson(basketFile);
         } catch (IOException e) {
             System.out.println("Произошла ошибка при загрузке корзины из файла: " + e.getMessage());
 
@@ -52,16 +54,18 @@ public class Main {
                 continue;
             }
 
+            clientLog.log(productNumber, productCount);
             basket.addToCart(products.get(productNumber), productCount);
 
             try {
-                basket.saveTxt(basketFile);
+                basket.saveJson(basketFile);
             } catch (IOException e) {
                 System.out.println("Произошла ошибка при сохранении корзины в файл: " + e.getMessage());
             }
         }
 
         basket.printCart();
+        clientLog.exportAsCSV(clientLogFile);
     }
 
     public static void printProducts(List<Product> products) {

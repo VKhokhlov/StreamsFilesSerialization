@@ -1,8 +1,9 @@
-import java.util.Objects;
-
 public class Product {
     private String name;
     private int price;
+
+    public Product() {
+    }
 
     public Product(String name, int price) {
         this.name = name;
@@ -28,5 +29,13 @@ public class Product {
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
         return price == product.price && name.equals(product.name);
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }
